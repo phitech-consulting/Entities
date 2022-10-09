@@ -1,0 +1,18 @@
+{
+    "name": "phitech/entities",
+    "description": "Provides methods for managing entities that consist two database tables: main and meta. It allows for an indiscrete set of attributes by storing them as key-value sets in the meta table, while the most important attributes and indexes are in the main table. This structure is inspired by the post/postmeta structure in Wordpress databases.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lucas Johnston",
+            "email": "l.johnston@phitech.consulting"
+        }
+    ],
+    "require": {},
+	"autoload": {
+		"psr-4": {
+			"Entity\\": "src/Entities/"
+		}
+	}
+}
