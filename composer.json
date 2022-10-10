@@ -18,7 +18,7 @@
 	"extra": {
         "laravel": {
             "providers": [
-                "Entities\\EntitiesServiceProvider"
+                "Phitech\\Entities\\EntitiesServiceProvider"
             ]
         }
     }

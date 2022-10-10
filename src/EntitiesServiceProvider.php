@@ -1,10 +1,10 @@
 <?php
 
-namespace Entities;
+namespace Phitech\Entities;
 
 use Illuminate\Support\ServiceProvider;
 
-class
+class EntitiesServiceProvider
 {
 	
 	public function boot() {
