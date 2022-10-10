@@ -4,12 +4,13 @@ namespace Phitech\Entities;
 
 class EntityTest extends Entity
 {
-
-    public function __construct($id = null) {
-        parent::__construct('entity_test');
-    }
-
     public function output_test_message() {
-        dd("It works!");
+        $messages = "";
+        if(Schema::hasTable('entities')) {
+            $messages .= "Table 'entities' is present. You are set to go.\n\n";
+        } else {
+            $messages .= "Table 'entities' not found. You should run 'artisan migrate'.\n\n";
+        }
+        echo "\n" . $messages;
     }
 }
