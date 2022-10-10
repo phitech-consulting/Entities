@@ -8,7 +8,7 @@ class EntitiesServiceProvider extends ServiceProvider
 {
 	
 	public function boot() {
-		dd("it works!");
+
 	}
 	
 	public function register() {
