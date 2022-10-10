@@ -4,7 +4,7 @@ namespace Phitech\Entities;
 
 use Illuminate\Support\ServiceProvider;
 
-class EntitiesServiceProvider
+class EntitiesServiceProvider extends ServiceProvider
 {
 	
 	public function boot() {
