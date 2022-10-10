@@ -2,6 +2,8 @@
 
 namespace Phitech\Entities;
 
+use Illuminate\Support\Facades\DB;
+
 class Entity {
     public $main = "";
     public $meta = "";
