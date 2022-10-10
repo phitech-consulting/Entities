@@ -14,7 +14,7 @@
 		"psr-4": {
 			"Phitech\\Entity\\": "src/Entities/"
 		}
-	}
+	},
 	"extra": {
         "laravel": {
             "providers": [
