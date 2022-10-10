@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities;
+namespace Phitech\Entities;
 
 class Entity {
     public $main = "";

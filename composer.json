@@ -12,7 +12,14 @@
     "require": {},
 	"autoload": {
 		"psr-4": {
-			"Entity\\": "src/Entities/"
+			"Phitech\\Entity\\": "src/Entities/"
 		}
 	}
+	"extra": {
+    "laravel": {
+        "providers": [
+            "Phitech\\Entities\\EntitiesServiceProvider"
+        ]
+    }
+},
 }
