@@ -1,6 +1,6 @@
 <?php
 
-use Phitech\Entities\EntityTest
+use Phitech\Entities\EntityTest;
 
 Artisan::command('entities:test', function () {
 
