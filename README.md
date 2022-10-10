@@ -86,7 +86,6 @@ return new class extends Migration
         Schema::dropIfExists('orders');
     }
 };
-
 ```
 ### Meta table
 ```
@@ -131,5 +130,13 @@ return new class extends Migration
         Schema::dropIfExists('orders_meta');
     }
 };
-
+```
+### Getting started
+```
+class Order extends Entity 
+{
+    public function __construct(id = null) {
+        parent::__construct('order', $id);
+    }
+}
 ```
