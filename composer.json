@@ -16,10 +16,10 @@
 		}
 	}
 	"extra": {
-    "laravel": {
-        "providers": [
-            "Phitech\\Entities\\EntitiesServiceProvider"
-        ]
+        "laravel": {
+            "providers": [
+                "Phitech\\Entities\\EntitiesServiceProvider"
+            ]
+        }
     }
-},
 }
