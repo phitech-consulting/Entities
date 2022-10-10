@@ -1,4 +1,4 @@
-#Phitech Entities Library
+# Phitech Entities Library
 Author: Phitech Consulting  
 Package name: phitech/entities
 
@@ -7,7 +7,7 @@ Description: Provides methods for managing entities that consist two database ta
 Important: This package requires MySQL DBMS. MariaDB won't do. The reason: 👇
 
 *"All databases except SQL Server require the columns in the second argument of the upsert method to have a "primary" or "unique" index. In addition, the MySQL database driver ignores the second argument of the upsert method and always uses the "primary" and "unique" indexes of the table to detect existing records."* See also: https://laravel.com/docs/9.x/queries#upserts.
-##Installation
+## Installation
 This library is installed using composer.
 ```
 $ composer require phitech/entities 
@@ -18,7 +18,7 @@ $ composer install
 ```
 $ php artisan migrate
 ```
-##Usage
+## Usage
 To test if everything is installed correctly in your Laravel application, run:
 ```
 $ php artisan entities:test
@@ -27,7 +27,7 @@ Create a new entity:
 ```
 $ php artisan entities:make <entity name single> <entity name plural>
 ```
-For instance 'order'
+For instance 'order':
 ```
 $ php artisan entities:make order orders
 ```
@@ -43,7 +43,7 @@ An entity definition will now automatically be placed in the entities table whic
 }
 ```
 You should now make two tables by using database migrations. You must do this manually, because this application is not able to do this for you. Examples of the two database migration scripts are added below.
-###Main table
+### Main table
 ```
 $ php artisan migrate create_orders_table
 ```
@@ -88,7 +88,7 @@ return new class extends Migration
 };
 
 ```
-###Meta table
+### Meta table
 ```
 $ php artisan migrate create_orders_meta_table
 ```
