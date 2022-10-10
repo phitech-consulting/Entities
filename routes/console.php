@@ -1,5 +1,7 @@
 <?php
 
+use Phitech\Entities\EntityTest
+
 Artisan::command('entities:test', function () {
 
     $entity_test = new EntityTest();
