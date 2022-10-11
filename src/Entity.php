@@ -10,6 +10,8 @@ class Entity {
     public $meta_entity_id = "instance_id";
     public $main_required = [];
     public $id = null;
+    public $main_data = [];
+    public $meta_data = [];
 
 
     /**
