@@ -5,8 +5,8 @@ namespace Phitech\Entities;
 use Illuminate\Support\Facades\DB;
 
 class Entity {
-    public $main = "";
-    public $meta = "";
+    public $main_db_table = "";
+    public $meta_db_table = "";
     public $meta_entity_id = "instance_id";
     public $main_required = [];
     public $id = null;
@@ -19,8 +19,8 @@ class Entity {
         $definition = DB::table("entities")->where("name", $entity)->get()->first();
         if($definition) {
             $definition = json_decode($definition->definition, true);
-            $this->main = $definition['main_db_table'];
-            $this->meta = $definition['meta_db_table'];
+            $this->main_db_table = $definition['main_db_table'];
+            $this->meta_db_table = $definition['meta_db_table'];
             $this->meta_entity_id = $definition['meta_instance_id_column'] ?? $this->meta_entity_id;
             $this->main_required = $definition['main_required_columns'];
         } else {
@@ -41,7 +41,7 @@ class Entity {
      */
     public function get_single_instance(array $pk = []) {
         $entity_data = [];
-        $query = DB::table($this->main);
+        $query = DB::table($this->main_db_table);
         foreach($pk as $y => $x) {
             $query = $query->where($y, $x);
         }
@@ -52,7 +52,7 @@ class Entity {
         foreach($instance as $key => $value) {
             $entity_data[$key] = $value;
         }
-        $meta = DB::table($this->meta)->where($this->meta_entity_id, $instance->id)->select('meta_key', 'meta_value')->get();
+        $meta = DB::table($this->meta_db_table)->where($this->meta_entity_id, $instance->id)->select('meta_key', 'meta_value')->get();
         foreach($meta as $meta_item) {
             $entity_data[$meta_item->meta_key] = $meta_item->meta_value;
         }
@@ -68,8 +68,8 @@ class Entity {
      */
     public function get_entity_matrix(array $ids = null) {
         $entity_matrix = [];
-        $query_data = DB::table($this->main);
-        $query_meta = DB::table($this->meta);
+        $query_data = DB::table($this->main_db_table);
+        $query_meta = DB::table($this->meta_db_table);
         if(isset($ids)) {
             $query_data->whereIn("id", $ids);
             $query_meta->whereIn($this->meta_entity_id, $ids);
@@ -99,7 +99,7 @@ class Entity {
         $insert_meta_query = [];
 
         /* Look up the instance_id by the key that was given */
-        $id_query = DB::table($this->main);
+        $id_query = DB::table($this->main_db_table);
         foreach($pk as $y => $x) {
             $id_query = $id_query->where($y, $x);
         }
@@ -107,13 +107,13 @@ class Entity {
         $main['id'] = $instance->id ?? null; // If no instance was found, assign null
 
         /* Update or insert the main entity data, keep the instance_id for later use */
-        $query_data = DB::table($this->main);
+        $query_data = DB::table($this->main_db_table);
         $columns = array_keys($main);
         $query_data->upsert($main, 'id', $columns);
         $instance_id = DB::getPdo()->lastInsertId() ?: $main['id']; // Proceed with ID from update or insert, otherwise proceed with ID that was set earlier
 
         /* Update or insert the entity meta data */
-        $query_meta = DB::table($this->meta);
+        $query_meta = DB::table($this->meta_db_table);
         foreach($meta as $set) {
             $insert_meta_query[] = ["meta_key" => $set[0], "meta_value" => $set[1], $this->meta_entity_id => $instance_id];
         }
@@ -132,7 +132,7 @@ class Entity {
      * @return DB | false
      */
     public function get_distinct_meta_keys($entity_id) {
-        return DB::table($this->meta)->where($this->meta_entity_id, $entity_id)->distinct()->get();
+        return DB::table($this->meta_db_table)->where($this->meta_entity_id, $entity_id)->distinct()->get();
     }
 
 
@@ -145,7 +145,7 @@ class Entity {
      * @return integer
      */
     public function find_by_key_value($key, $value) {
-        $result = DB::table($this->meta)->where("meta_key", $key)->where("meta_value", $value)->first();
+        $result = DB::table($this->meta_db_table)->where("meta_key", $key)->where("meta_value", $value)->first();
         return $result->{$this->meta_entity_id};
     }
 }
