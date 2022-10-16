@@ -10,7 +10,7 @@ Artisan::command('entities:test', function () {
 
 })->purpose('Find if Entities library is installed correctly.');
 
-Artisan::command('entities:make', function ($single, $plural) {
+Artisan::command('entities:make {single} {plural}', function ($single, $plural) {
     $entity_definition = json_encode([
         "entity_name" => $single,
         "main_db_table" => $plural,
