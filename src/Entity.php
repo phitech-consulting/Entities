@@ -3,6 +3,7 @@
 namespace Phitech\Entities;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class Entity {
     public $main_db_table = "";
@@ -23,7 +24,7 @@ class Entity {
             $definition = json_decode($definition->definition, true);
             $this->main_db_table = $definition['main_db_table'];
             $this->meta_db_table = $definition['meta_db_table'];
-            $this->meta_entity_id = $definition['meta_instance_id_column'] ?? $this->meta_entity_id;
+            $this->meta_entity_id = $definition['meta_instance_id'] ?? $this->meta_entity_id;
             $this->main_required = $definition['main_required_columns'];
         } else {
             abort(500, "Missing entity definition for: " . $entity);
@@ -144,22 +145,39 @@ class Entity {
      * the rest of your program guarantees meta_key plus meta_value are unique.
      * @param $key
      * @param $value
-     * @return integer
+     * @return integer|false
      */
-    public function find_by_key_value($key, $value) {
+    public function find_by_key_value(string $key, string $value) {
         $result = DB::table($this->meta_db_table)->where("meta_key", $key)->where("meta_value", $value)->first();
-        return $result->{$this->meta_entity_id};
+        return $result->{$this->meta_entity_id} ?? false;
     }
 
 
     /**
      * Get value of meta-key for this specific entity. Note that ID and meta_key are together
-     * unique, so no need to add ->first() to the query.
-     * @param $key
-     * @return mixed
+     * unique, so the ->first() method is used safely.
+     * @param string $key
+     * @return string ## The meta_value if found, empty string otherwise
      */
-    public function get_meta_value($key) {
-        $result = DB::table($this->meta_db_table)->where("meta_key", $key)->where($this->meta_entity_id, $this->id);
-        return $result->meta_value;
+    public function get_meta_value(string $key) {
+        $result = DB::table($this->meta_db_table)->where("meta_key", $key)->where($this->meta_entity_id, $this->id)->first();
+        return $result->meta_value ?? "";
+    }
+
+
+    /**
+     * Helper method to create a new entity definition in 'entities' table.
+     * @param $definition ## Array containing definition to later convert to JSON
+     * @return void
+     */
+    public static function register_new(array $definition) {
+        if(Schema::hasTable('entities')) {
+            DB::table('entities')->insert([
+                'name' => $definition['entity_name'],
+                'definition' => json_encode($definition)
+            ]);
+        } else {
+            abort(500, "Cannot register entity because there's no entities table. Did you run 'php artisan migrate'?");
+        }
     }
 }
