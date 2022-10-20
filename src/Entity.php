@@ -150,4 +150,16 @@ class Entity {
         $result = DB::table($this->meta_db_table)->where("meta_key", $key)->where("meta_value", $value)->first();
         return $result->{$this->meta_entity_id};
     }
+
+
+    /**
+     * Get value of meta-key for this specific entity. Note that ID and meta_key are together
+     * unique, so no need to add ->first() to the query.
+     * @param $key
+     * @return mixed
+     */
+    public function get_meta_value($key) {
+        $result = DB::table($this->meta_db_table)->where("meta_key", $key)->where($this->meta_entity_id, $this->id);
+        return $result->meta_value;
+    }
 }
