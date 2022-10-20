@@ -25,9 +25,9 @@ Artisan::command('entities:make {single} {plural}', function ($single, $plural) 
 })->purpose('Register a new entity definition');
 
 
-Artisan::command('entities:get_entity_meta {id} {key}', function ($id, $key) {
+Artisan::command('entities:get_entity_meta {entity} {id} {key}', function ($entity, $id, $key) {
 
-    $entity_test = new EntityTest(id: $id);
+    $entity_test = new Entity(entity: $entity, id: $id);
     echo $entity_test->get_meta_value($key);
 
 })->purpose('Get meta-value by ID and meta_key');
