@@ -165,6 +165,15 @@ class Entity {
     }
 
 
+    public function add_meta_value($key, $value) {
+        return DB::table($this->meta_db_table)->insertGetId([
+            $this->meta_entity_id => $this->id,
+            'meta_key' => $key,
+            'meta_value' => $value
+        ]);
+    }
+
+
     /**
      * Helper method to create a new entity definition in 'entities' table.
      * @param $definition ## Array containing definition to later convert to JSON

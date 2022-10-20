@@ -31,3 +31,11 @@ Artisan::command('entities:get_entity_meta {entity} {id} {key}', function ($enti
     echo $entity_test->get_meta_value($key);
 
 })->purpose('Get meta-value by ID and meta_key');
+
+
+Artisan::command('entities:add_entity_meta {entity} {id} {key} {value}', function ($entity, $id, $key, $value) {
+
+    $entity_test = new Entity(entity: $entity, id: $id);
+    echo $entity_test->add_meta_value($key, $value);
+
+})->purpose('Insert meta-value for an instance');
