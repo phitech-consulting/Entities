@@ -4,6 +4,7 @@ use Phitech\Entities\EntityTest;
 use Phitech\Entities\Entity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Artisan;
 
 Artisan::command('entities:test', function () {
 
