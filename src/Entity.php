@@ -19,6 +19,7 @@ class Entity {
      * @param $entity
      */
     public function __construct($entity, $id = null) {
+		$this->id = $id;
         $definition = DB::table("entities")->where("name", $entity)->get()->first();
         if($definition) {
             $definition = json_decode($definition->definition, true);
@@ -30,7 +31,6 @@ class Entity {
             abort(500, "Missing entity definition for: " . $entity);
         }
         if($id) {
-            $this->id = $id;
             $this->data = $this->get_single_instance(["id" => $id]);
         }
     }
@@ -160,17 +160,26 @@ class Entity {
      * @return string ## The meta_value if found, empty string otherwise
      */
     public function get_meta_value(string $key) {
-        $result = DB::table($this->meta_db_table)->where("meta_key", $key)->where($this->meta_entity_id, $this->id)->first();
-        return $result->meta_value ?? "";
+		$result = DB::table($this->meta_db_table)->where("meta_key", $key)->where($this->meta_entity_id, $this->id)->first();
+		return $result->meta_value ?? "";
     }
 
 
+	/**
+	 * Add one key-value set for this specific entity.
+     * @param $key
+     * @param $value
+     * @return int|bool ## The meta_id
+     */
     public function add_meta_value($key, $value) {
-        return DB::table($this->meta_db_table)->insertGetId([
-            $this->meta_entity_id => $this->id,
-            'meta_key' => $key,
-            'meta_value' => $value
-        ]);
+        if($this->id) {
+            return DB::table($this->meta_db_table)->insertGetId([
+                $this->meta_entity_id => $this->id,
+                'meta_key' => $key,
+                'meta_value' => $value
+            ]);
+        }
+		return false;
     }
 
 
