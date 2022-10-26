@@ -169,15 +169,12 @@ class Entity {
 	 * Add one key-value set for this specific entity.
      * @param $key
      * @param $value
-     * @return int|bool ## The meta_id
+     * @return false ## Just always return false, regardless of outcomes fail, update or insert.
      */
     public function add_meta_value($key, $value) {
         if($this->id) {
-            return DB::table($this->meta_db_table)->insertGetId([
-                $this->meta_entity_id => $this->id,
-                'meta_key' => $key,
-                'meta_value' => $value
-            ]);
+			$data = [$this->meta_entity_id => $this->id, 'meta_key' => $key, 'meta_value' => $value];
+			DB::table($this->meta_db_table)->upsert($data, [$this->meta_entity_id, 'meta_key'], [$this->meta_entity_id, "meta_key", "meta_value"]);
         }
 		return false;
     }
