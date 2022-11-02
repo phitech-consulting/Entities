@@ -11,8 +11,7 @@ class Entity {
     public $meta_entity_id = "instance_id";
     public $main_required = [];
     public $id = null;
-    public $main_data = [];
-    public $meta_data = [];
+    public $data = [];
 
 
     /**
@@ -31,7 +30,7 @@ class Entity {
             abort(500, "Missing entity definition for: " . $entity);
         }
         if($id) {
-            $this->data = $this->get_single_instance(["id" => $id]);
+            $this->get_single_instance(["id" => $id]);
         }
     }
 
@@ -59,6 +58,7 @@ class Entity {
         foreach($meta as $meta_item) {
             $entity_data[$meta_item->meta_key] = $meta_item->meta_value;
         }
+        $this->data = $entity_data;
         return $entity_data;
     }
 
@@ -123,7 +123,7 @@ class Entity {
         $query_meta->upsert($insert_meta_query, [$this->meta_entity_id, "meta_key"], [$this->meta_entity_id, "meta_key", "meta_value"]);
 
         /* Return the database ID of the instance that was inserted or updated */
-        return $instance_id;
+        return $this->get_single_instance($instance_id);
     }
 
 
