@@ -12,6 +12,8 @@ class Entity {
     public $main_required = [];
     public $id = null;
     public $data = [];
+    public $main_data = [];
+    public $meta_data = [];
 
 
     /**
@@ -59,6 +61,7 @@ class Entity {
             $entity_data[$meta_item->meta_key] = $meta_item->meta_value;
         }
         $this->data = $entity_data;
+        $this->id = $this->data['id'];
         return $entity_data;
     }
 
