@@ -123,7 +123,7 @@ class Entity {
         $query_meta->upsert($insert_meta_query, [$this->meta_entity_id, "meta_key"], [$this->meta_entity_id, "meta_key", "meta_value"]);
 
         /* Return the database ID of the instance that was inserted or updated */
-        return $this->get_single_instance($instance_id);
+        return $this->get_single_instance(["id" => $instance_id]);
     }
 
 
