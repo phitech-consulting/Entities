@@ -39,3 +39,11 @@ Artisan::command('entities:add_entity_meta {entity} {id} {key} {value}', functio
     echo $entity_test->add_meta_value($key, $value);
 
 })->purpose('Insert meta-value for an instance');
+
+
+Artisan::command('entities:get_single_instance {id}', function ($id) {
+
+    $entity_test = new Entity(entity: 'entity_test', id: $id);
+    print_r($entity_test->data);
+
+})->purpose('Get all data of single instance by ID');
